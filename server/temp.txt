@@ -1,0 +1,13 @@
+// console.log(password);
+    // password="temp";
+    // const salt = await bcrypt.genSalt();
+    // console.log(salt);
+    // console.log(password);
+    // const hash= await bcrypt.hash(password, salt) // to encrypt the password , it is a asynchronous operation
+    // console.log(hash);
+        // .then(hash => {
+            // UserModel.create({ username, email, password:hash })//it is also a asychronous operation .
+                // .then(user => res.json(user))
+                // .catch(err => res.json(err))
+        // })
+        // .catch(err =>  console.log(err) )
