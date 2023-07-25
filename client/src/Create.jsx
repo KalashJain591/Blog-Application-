@@ -1,19 +1,22 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './index.css'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { userContext } from './App'
 export default function Create() {
   const [title,setTitle]=useState()
   const [desc,setDesc]=useState()
   const [file,setFile]=useState()
-  
+  const navigate=useNavigate();
+  const user = useContext(userContext);
   const handleSubmit=(e)=>{
     e.preventDefault();
     const formData=new FormData();
     formData.append('title',title);
     formData.append('desc',desc);
     formData.append('file',file);
-    const navigate=useNavigate();
+    formData.append('email',user.email);
+   
 // console.log(file);
     axios.post('http://localhost:3001/create',formData)
     .then(res=>{

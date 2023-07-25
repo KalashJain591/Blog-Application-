@@ -7,6 +7,7 @@ import { Children, createContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import Create from './Create'
 import SinglePost from './SinglePost'
+import EditPost from './EditPost'
 export const userContext = createContext();
 
 function App() {
@@ -39,6 +40,9 @@ function App() {
             <Route path='/home' element={<Home />}></Route>
             <Route path='/create' element={<Create/>}></Route>
             <Route path='/singlePost/:id' element={<SinglePost/>}></Route>
+            <Route path='/editPost/:id' element={<EditPost/>}></Route>
+           
+
             
           </Routes>
         </BrowserRouter>

@@ -129,7 +129,7 @@ app.post('/create', verifyUser, upload.single('file'), (req, res) => {
   console.log(req.file);
   // const {title,desc}=req.body;
   // console.log(req.body);
-  PostModel.create({title:req.body.title,desc:req.body.desc,file:req.file.filename})
+  PostModel.create({title:req.body.title,desc:req.body.desc,file:req.file.filename,email:req.body.email})
   .then(user=>{
     res.json("Posted Successfully");
 
@@ -156,6 +156,25 @@ app.get('/getPostById/:id',(req,res)=>{
   return res.json(post)
 })
  .catch(err=>res.json(err));
+})
+
+app.put('/editPost/:id',verifyUser, upload.single('file'), (req,res)=>{
+const id=req.params.id;
+// console.log(req.body);
+PostModel.findOneAndUpdate({_id:id},{title:req.body.title,desc:req.body.desc,file:req.file.filename})
+.then(user=>{
+  // console.log(user);
+  res.json("Updated Successfully");
+})
+.catch(err=>console.log(err))
+
+})
+
+app.delete('/deletePost/:id',(req,res)=>{
+  const id=req.params.id;
+  PostModel.deleteOne({_id:id})
+  .then(user=>res.json("Deleted Successfully"))
+  .catch(err=>res.json(err));
 })
 
 app.listen(PORT, () => {
