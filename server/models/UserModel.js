@@ -4,6 +4,7 @@
     name:String,
     password:String,
     email:String,
+    verifytoken:String,
    //  recheck:String 
  })
 
