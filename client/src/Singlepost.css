@@ -1,0 +1,69 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+.blog-post-info {
+   display: flex;
+   flex-wrap: wrap;
+   align-items: center;
+   justify-content: space-between;
+   border: 1px solid #ccc;
+   padding: 20px;
+   margin: 20px 0;
+   background-color: #f9f9f9;
+}
+
+.author-info {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.author-info img {
+   border-radius: 50%;
+   margin-right: 10px;
+}
+
+.author-details {
+   font-size: 14px;
+}
+
+.author-details h3 {
+   font-size: 18px;
+   margin: 0;
+}
+
+.published-date {
+   font-size: 14px;
+   color: #555;
+}
+
+.share-post {
+   text-align: right;
+}
+
+.share-post h4 {
+   font-size: 16px;
+}
+
+.social-icon {
+   display: inline-block;
+   margin-right: 10px;
+   text-decoration: none;
+   color: #007bff;
+   font-weight: bold;
+}
+
+/* Style individual social icons */
+.social-icon.facebook::before {
+   content: "F";
+}
+
+.social-icon.twitter::before {
+   content: "T";
+}
+
+.social-icon.linkedin::before {
+   content: "L";
+}
+abc{
+   display: none ;
+   background-color: brown;
+}

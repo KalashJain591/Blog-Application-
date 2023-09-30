@@ -5,11 +5,15 @@ import axios from 'axios';
 
 export default function Navbar(props) {
     // console.log(user );
-    const user = useContext(userContext);
+    const {user} = useContext(userContext);
     const navigate = useNavigate();
     console.log(user);
     const handleLogout = () => {
-        axios.get('http://localhost:3001/logout')
+        axios.get('http://localhost:3001/auth/logout')
+        .then(res=>console.log("getting out "))
+        .catch(err=>console.log(err))
+        
+        axios.get('http://localhost:3001/user/logout')
             .then(res => {
                 if (res.data == "Logout Succesfully") {
                     window.location.href = "/login";
@@ -17,6 +21,7 @@ export default function Navbar(props) {
                 }
             })
             .catch(err => console.log(err))
+        
     }
 
     return (
@@ -25,7 +30,7 @@ export default function Navbar(props) {
                 <div className="container-fluid">
                     <a className="navbar-brand" href="#">Blog App</a>
                     <div className='align-items-center'>
-                        <Link className="navbar-brand" to="/home"> Home</Link>
+                        <Link className="navbar-brand" to="/"> Home</Link>
                         {
                             user.name?
                             <Link className="navbar-brand" to="/create"> Create</Link>

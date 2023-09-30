@@ -1,48 +1,122 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import JoditEditor from 'jodit-react';
+import uploadFile from './UploadCheck'
+import { userContext } from './App';
+import { getStorage, ref, deleteObject } from "firebase/storage";
+import { async } from '@firebase/util';
+const defaultRef = "temp.jpeg";
 
 export default function EditPost() {
-    const {id} = useParams();
+    const { id } = useParams();
     const [title, setTitle] = useState()
     const [desc, setDesc] = useState()
     const [file, setFile] = useState()
-    const [newFile,setNewFile]=useState()
-    const navigate=useNavigate();
+    const [img, setImg] = useState()
+    const [imgLink, setImgLink] = useState();
+    const [displayText, setDisplayText] = useState('');
+    const editor = useRef(null);
+    const { user } = useContext(userContext);
+    const navigate = useNavigate();
+    const [cat, setcat] = useState(); 
+    const getRef = (url) => {
+        var imageUrl = url;
+        var parts = imageUrl.split("?");
+        var imagePath = parts[0];
+        imagePath = decodeURIComponent(imagePath);
+        var pathComponents = imagePath.split("/");
+        return pathComponents[8];
+    }
+
+    const DeleteImage = async (fileRef) => {
+        const storage = getStorage();
+        const desertRef = ref(storage, `images/${fileRef}`);
+        // Delete the file
+        deleteObject(desertRef).then(() => {
+            // File deleted successfully
+            console.log("File Deleted")
+        }).catch((error) => {
+            // Uh-oh, an error occurred!
+            console.log("File not Deleted")
+        });
+    }
+
+    const handleupload = async (file) => {
+        try {
+            if (file) {
+                const downloadURL = await uploadFile(file, "imgUrl");
+                console.log(img);
+                // checkImage(img)
+                if (file.size > 200000) {
+                    alert("File size should be less than 5 KB");
+                    return;
+                }
+                else if (file.type != 'image/png' && file.type != 'image/jpeg' && file.type != 'image.jpg') {
+                    alert("File Type should be png, jpeg or jpg");
+                    return;
+                }
+                // To delete the old existing image .
+                const fileRef = getRef(img);
+                console.log(fileRef);
+                if (fileRef != defaultRef) await DeleteImage(fileRef);
+                return downloadURL;
+            }
+        }
+        catch (err) {
+            console.log(err);
+            alert("Some Error Occured in File upload");
+            return null;
+        }
+    }
+
     // This hook is to initially get the current data of the post to be edited
     console.log(id);
-    useEffect(()=>{
-        axios.get('http://localhost:3001/getPostById/' + id)
-        .then(res=>{
-            console.log(id);
-            console.log(res);
-            setTitle(res.data.title);
-            setDesc(res.data.desc);
-            setFile(res.data.file);
-        })
-        .catch(err=>console.log("err"))
+    useEffect(() => {
+        axios.get('http://localhost:3001/post/getPostById/' + id)
+            .then(res => {
+                console.log(id);
+                console.log(res);
+                setTitle(res.data.title);
+                setDesc(res.data.desc);
+                setImg(res.data.imgLink);
+                setDisplayText(res.data.displayText);
+                setcat(res.data.category);
 
-    },[]);
-    
-    const handleSubmit = (e) => {
+            })
+            .catch(err => console.log(err))
+
+    }, []);
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(title + " " + desc + " ");
-        const formData = new FormData();
-        formData.append('title', title);
-        formData.append('desc', desc);
-        if(newFile)
-        formData.append('file', newFile);
-        else
-        formData.append('file',file);
-        // console.log(formData.get('title') + " " + formData.get('desc'))
+        console.log(cat);
+        const postData = {
+            title: title,
+            desc: desc,
+            displayText: displayText,
+            email: user.email,
+            imgLink: null,
+            category:cat,
+        };
 
-        // console.log(formData.title);
-        console.log(formData.get('desc'));
-        axios.put(`http://localhost:3001/editPost/${id}`, formData)
+
+        if (file) {
+            const link = await handleupload(file);
+            if (link == null)
+                return;
+            console.log(link);
+            setImgLink(link);
+            postData.imgLink = link
+        }
+
+
+        console.log(postData);
+        axios.put(`http://localhost:3001/post/editPost/${id}`, postData)
             .then(res => {
                 console.log(res)
                 if (res.data == "Updated Successfully")
-                    navigate("/home");
+                    navigate("/");
             })
             .catch(err => console.log(err))
 
@@ -51,13 +125,26 @@ export default function EditPost() {
         <div className='row d-flex justify-content-center mt-5'>
             <form className=' col-sm-5 ' onSubmit={handleSubmit}>
                 <h1>Edit Your Post</h1>
-                <input type="text" className="form-control title mt-2" placeholder='Enter Title' onChange={(e) => setTitle(e.target.value)} value={title}/>
-                <textarea className="form-control desc mt-2" rows="10" cols="50" placeholder='Enter Description' onChange={(e) => setDesc(e.target.value)} value={desc}></textarea>
-                <input type="file" className="form-control-file col-12 mt-2" id="exampleFormControlFile1" onChange={(e) => setNewFile(e.target.files[0])}  />
+                <input type="text" className="form-control title mt-2" placeholder='Enter Title' onChange={(e) => setTitle(e.target.value)} value={title} />
+                <JoditEditor
+                    ref={editor}
+                    value={desc}
+                    tabIndex={1}
+                    onChange={(e) => { setDesc(e); console.log(desc); }}
+                />
+                <input type="text" className="form-control title my-4" placeholder='Enter Display Text' onChange={(e) => setDisplayText(e.target.value)} value={displayText} />
+                <select name="Category" id="cars" value={cat} onChange={(e) => {setcat(e.target.value);console.log(cat);}}>
+                    <option value="Technology">Technology</option>
+                    <option value="Computer Programming">Programming</option>
+                    <option value="Spiritual">Spiritual</option>
+                    <option value="General Knowledge">Knowledge</option>
+                    <option value="Motivation">Motivation</option>
+                    <option value="Others">Others</option>
+                </select>
+                <input type="file" className="form-control-file col-12 mt-2" id="exampleFormControlFile1" onChange={(e) => setFile(e.target.files[0])} />
                 <button type="submit" className="btn btn-success col-12 my-2 " >Post</button>
-
             </form>
-            {/* <h1>hello</h1> */}
+
         </div>
     )
 }

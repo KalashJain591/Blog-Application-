@@ -1,5 +1,5 @@
 import Navbar from './Navbar'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import Register from './Register'
 import Login from './Login'
 import Home from './Home'
@@ -8,15 +8,35 @@ import axios from 'axios'
 import Create from './Create'
 import SinglePost from './SinglePost'
 import EditPost from './EditPost'
+import Resetpass from './Resetpass'
+import Forgotpass from './Forgotpass'
+import Error from './Error'
+// import UploadCheck from './UploadCheck'
+import Getimg from './Getimg'
 export const userContext = createContext();
-
+  
 function App() {
+  
     const [user,setUser]=useState({});
+    const [googleAuth,setgoogleAuth]=useState(null);
+  
     // const [temp,settemp]=useState({"name":"kalash","id":"1"});
-
+    
     axios.defaults.withCredentials=true;
+   // This is for google authentication 
+  //  useEffect(()=>{
+  //    axios.get('http://localhost:3001/auth/login/success')
+  //    .then(res=>{
+  //     if(res.data=="Login Successful"){
+  //       setauth(true);    
+  //     }
+      
+  //   })
+  //    .catch(err=> {console.log(err)})
+  //  },[]);
+
     useEffect(()=>{
-      axios.get('http://localhost:3001/')
+      axios.get('http://localhost:3001/user/check')
       .then(user=>{setUser(user.data);console.log(user.data)})
       .catch(err=>{console.log(err)})
     },[])
@@ -24,26 +44,29 @@ function App() {
     const [isAuth,setauth]=useState(false);
 
     useEffect(()=>{
-      axios.get('http://localhost:3001/')
+      axios.get('http://localhost:3001/user/check')
       .then(user=>{setUser(user.data);console.log(user.data)})
       .catch(err=>{console.log(err)})
     },[isAuth]);
     
     return (
     <>
-         <userContext.Provider value={user}>
+         <userContext.Provider value={{user,googleAuth,isAuth}}>
          <BrowserRouter>
           <Navbar setauth={setauth} />
           <Routes>
             <Route path='/register' element={<Register setauth={setauth} />}></Route>
             <Route path='/login' element={<Login setauth={setauth} />}></Route>
-            <Route path='/home' element={<Home />}></Route>
+            <Route path='/' element={<Home />}></Route>
             <Route path='/create' element={<Create/>}></Route>
             <Route path='/singlePost/:id' element={<SinglePost/>}></Route>
-            <Route path='/editPost/:id' element={<EditPost/>}></Route>
-           
+            <Route path='/editPost/:id' element={<EditPost/>}></Route>  
+            <Route path='/forgot-password' element={<Forgotpass/>} />
+            <Route path='/reset-password/:id/:token' element={<Resetpass/>} />
+            {/* <Route path='/uploadCheck' element={<UploadCheck/>} />     */}
+            <Route path='/GetImg' element={<Getimg/>} />    
 
-            
+            <Route path='/error' element={<Error/>} />  
           </Routes>
         </BrowserRouter>
         </userContext.Provider>
