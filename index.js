@@ -41,7 +41,9 @@ const mongoose = require("mongoose")
 // app.use('/auth',authRoute);
 // app.use('/user',userRoute);
 // app.use('/post',postRoute);
-// mongoose.connect(process.env.MONGO_URL)
+mongoose.connect(process.env.MONGO_URL)
+.then(()=>{console.log('Mongodb connected')})
+.catch((err)=>{console.log('ERR :',err)})
 // mongoose.connect("mongodb://127.0.0.1:27017/Blog");
 // app.use(express.static('public')); // It is used to grant access to the static public folder to access the images .
 
