@@ -6,7 +6,7 @@ import './Singlepost.css'
 export default function SinglePost() {
     const { id } = useParams();
 
-    console.log(id);
+    // console.log(id);
     const [singlePost, setPost] = useState({ likes: [] });
     const [flag, setFlag] = useState(1);
     const[stats, setStatus] = useState(0);
@@ -15,7 +15,7 @@ export default function SinglePost() {
     const { user } = useContext(userContext);
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-    console.log(user);
+    // console.log(user);
     useEffect(() => {
         axios.get('http://localhost:3001/post/getPostById/' + id)
             .then(res => { console.log(res.data); setPost(res.data) })
@@ -25,10 +25,10 @@ export default function SinglePost() {
 
     const getDte=(T)=>{
         // DT=new Date(DT);
-        console.log(T);
+        // console.log(T);
         let DT=new Date(T);
         let s=DT.getDate()+" "+months[DT.getMonth()]+" "+ DT.getFullYear();
-        console.log(s);
+        // console.log(s);
             
             return s;
         }

@@ -90,9 +90,9 @@ router.post('/login', (req, res) => {
                         res.cookie('token', token) // store the token into a cookie .
                         // return res.cookie("token", token).status(200).send("Registration Successfully");
 
-                        mailer(user.email, "You are successfuly Registered")
-                            .then(res => console.log("message sent successfully"))
-                            .catch(err => console.log(err))
+                        // mailer(user.email, "You are successfuly Registered")
+                        //     .then(res => console.log("message sent successfully"))
+                        //     .catch(err => console.log(err))
                         // console.log(res.cookie);
                         return res.json("Login Successful");
                     }
@@ -116,7 +116,7 @@ router.post("/forgotPass", async (req, res) => {
         .then(async user => {
             if (user) {
                 const id = user._id;
-                const token = jwt.sign({ id: id }, "jwt-secret-key", { expiresIn: "500s" });
+                const token = jwt.sign({ id: id }, "jwt-secret-key", { expiresIn: "1500s" });
                 console.log(token);
 
                 const encodedToken = base64url.encode(token);
@@ -125,8 +125,12 @@ router.post("/forgotPass", async (req, res) => {
                 const setusertoken = await UserModel.findByIdAndUpdate({ _id: id }, { verifytoken: encodedToken }, { new: true });
                 const string = `This Link Valid For 2 MINUTES http://localhost:5173/reset-password/${id}/${encodedToken}`;
                 mailer(email, string)
-                    .then(res => { console.log("RESET mail Send Successfully") })
-                    .catch(err => { console.log("RESET mail Send Successfully") })
+                    .then(fun => { 
+                        console.log("Reset mail Sent") ; 
+                        return res.json("RESET mail Send Successfully") ;
+                    })
+                    .catch(err => { console.log("Some error") })
+                
             }
             else {
                 return res.json("User Don't Exist");
@@ -141,13 +145,13 @@ router.get("/check/:id/:token", async (req, res) => {
     const { token } = req.params;
     // console.log(id +" 3434 " + token );
     UserModel.findById({ _id: id })
-        .then(async user => {
+        .then( user => {
             if (user) {
                 // console.log("hell");
                 const decodedToken = base64url.decode(token);
                 const validToken = jwt.verify(decodedToken, "jwt-secret-key");
 
-                console.log(validToken);
+                // console.log(validToken);
 
                 if (user.verifytoken === token && validToken.id)
                     return res.json("USER VALID");
@@ -171,13 +175,14 @@ router.post("/updatePass/:id/:token", async (req, res) => {
             .then(newPass => {
 
                 UserModel.findByIdAndUpdate({ _id: id }, { password: newPass })
-                    .then(res => console.log(res))
-                    .catch(err => console.log(err))
+                    .then(fun=> {return res.json("UPDATED PASSWORD");})
+                    .catch(err => {console.log(err);return res.json("UPDATE FAILED")})
             })
             .catch(err => console.log(err))
     }
 
 })
+
 
 
 module.exports = router;

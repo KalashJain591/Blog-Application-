@@ -16,7 +16,7 @@ const cookieSession=require("cookie-session");
 const passportSetup=require("./Passport");
 const authRoute=require('./Routes/auth');
 const defaultPath = 'public/Images/';
-const PORT = 3001||8080
+const PORT = process.env.PORT ||3001||8080
 const app = express();
 const userRoute=require('./Routes/userRoute');
 const postRoute=require('./Routes/postRoute');
@@ -41,8 +41,15 @@ app.use(cors({
 app.use('/auth',authRoute);
 app.use('/user',userRoute);
 app.use('/post',postRoute);
-mongoose.connect("mongodb://127.0.0.1:27017/Blog");
-app.use(express.static('public')); // It is used to grant access to the static public folder to access the images .
+mongoose.connect(process.env.MONGO_URL)
+// mongoose.connect("mongodb://127.0.0.1:27017/Blog");
+// app.use(express.static('public')); // It is used to grant access to the static public folder to access the images .
 app.listen(PORT, () => {
   console.log(`Connected to PORT ${PORT}`);
 })
+
+
+app.use(express.static('client/dist'));
+ app.get('*', (req, res) => {
+    res.sendFile(path.resolve('client','dist','index.html'));
+});
