@@ -24,4 +24,4 @@ node_modules
 *.sw?
 .env
 
-firebase.js
+# firebase.js
