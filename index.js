@@ -41,7 +41,7 @@ const mongoose = require("mongoose")
 // app.use('/auth',authRoute);
 // app.use('/user',userRoute);
 // app.use('/post',postRoute);
-mongoose.connect(process.env.MONGO_URL)
+mongoose.connect("mongodb+srv://kalashj93:ge7YdzZAVMjKBYPV@cluster0.a9x7n71.mongodb.net/?retryWrites=true&w=majority")
 .then(()=>{console.log('Mongodb connected')})
 .catch((err)=>{console.log('ERR :',err)})
 // mongoose.connect("mongodb://127.0.0.1:27017/Blog");
