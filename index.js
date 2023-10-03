@@ -3,25 +3,25 @@ const path = require("path")
 const PORT = process.env.PORT ||3001||8080
 const app = express();
 // require("dotenv").config();
-// const mongoose = require("mongoose")
+const mongoose = require("mongoose")
 // const cors = require("cors")
-// const bcrypt = require("bcrypt")
-// const jwt = require("jsonwebtoken")
-// const cookieParser = require("cookie-parser")
+const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
+const cookieParser = require("cookie-parser")
 // const multer = require("multer")
-// const UserModel = require('./models/UserModel');
-// const PostModel = require('./models/PostModel')
+const UserModel = require('./models/UserModel');
+const PostModel = require('./models/PostModel')
 // const { time, timeStamp, log } = require("console")
 // const fs = require('fs');
-// const passport=require("passport");
-// const cookieSession=require("cookie-session");
-// const passportSetup=require("./Passport");
-// const authRoute=require('./Routes/auth');
+const passport=require("passport");
+const cookieSession=require("cookie-session");
+const passportSetup=require("./Passport");
+const authRoute=require('./Routes/auth');
 // const defaultPath = 'public/Images/';
-// const userRoute=require('./Routes/userRoute');
+const userRoute=require('./Routes/userRoute');
 // const postRoute=require('./Routes/postRoute');
-// app.use(express.json());
-// app.use(cookieParser());
+app.use(express.json());
+app.use(cookieParser());
 
 // app.use(cookieSession({
 //   name:"session",
@@ -41,7 +41,7 @@ const app = express();
 // app.use('/auth',authRoute);
 // app.use('/user',userRoute);
 // app.use('/post',postRoute);
-// mongoose.connect(process.env.MONGO_URL)
+mongoose.connect(process.env.MONGO_URL)
 // mongoose.connect("mongodb://127.0.0.1:27017/Blog");
 // app.use(express.static('public')); // It is used to grant access to the static public folder to access the images .
 
