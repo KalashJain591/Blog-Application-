@@ -33,8 +33,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(cors({
-  origin: ["http://127.0.0.1:5173", "http://localhost:5173","http://localhost:3001","https://codershub-pczs.onrender.com/"],
-  method: ["GET", "POST", "DELETE", "PUT"],
+  origin: ["http://127.0.0.1:5173", "http://localhost:5173","http://localhost:3001","https://codershub-pczs.onrender.com"],
+  methods: ["GET", "POST", "DELETE", "PUT"],
   credentials: true
 }))
 
