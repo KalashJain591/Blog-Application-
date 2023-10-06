@@ -68,7 +68,8 @@ export default function Create() {
     };
 
 
-    axios.post('http://localhost:3001/post/create', postData)
+    // axios.post('http://localhost:3001/post/create', postData)
+    axios.post('/post/create', postData)
       .then(res => {
         console.log(res)
         if (res.data == "Posted Successfully") {

@@ -9,11 +9,14 @@ export default function Navbar(props) {
     const navigate = useNavigate();
     console.log(user);
     const handleLogout = () => {
-        axios.get('http://localhost:3001/auth/logout')
+        // axios.get('http://localhost:3001/auth/logout')
+        axios.get('/auth/logout')
         .then(res=>console.log("getting out "))
         .catch(err=>console.log(err))
         
-        axios.get('http://localhost:3001/user/logout')
+        // axios.get('http://localhost:3001/user/logout')
+        axios.get('/user/logout')
+
             .then(res => {
                 if (res.data == "Logout Succesfully") {
                     window.location.href = "/login";

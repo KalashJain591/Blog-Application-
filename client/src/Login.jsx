@@ -17,7 +17,7 @@ export default function Login(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         // console.log(username); 
-        axios.post('http://localhost:3001/user/login', { username, email, password })
+        axios.post('/user/login', { username, email, password })
             .then(res => {
                 console.log(res.data)
                 if (res.data === "Login Successful") {
@@ -38,9 +38,9 @@ export default function Login(props) {
     //     navigate('/')
     // }
 
-    const googleAuthentication = () => {
-        window.open('http://localhost:3001/auth/google/callback', "_self");
-    }
+    // const googleAuthentication = () => {
+    //     window.open('http://localhost:3001/auth/google/callback', "_self");
+    // }
     if (isAuth)
         navigate('/');
 

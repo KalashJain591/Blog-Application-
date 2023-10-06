@@ -24,7 +24,8 @@ export default function Register(props) {
         }
         if (Password != checkPassword) { alert("Password don't Match"); return; }
         if (Password.length < 5) { alert("Password length should be greater than 4"); return; }
-        axios.post('http://localhost:3001/user/register', { username, email, password: Password })
+        // axios.post('http://localhost:3001/user/register', { username, email, password: Password })
+        axios.post('/user/register', { username, email, password: Password })
             .then(res => {
                 console.log(res);
                 if (res.data == "Registeration Successfull") {
@@ -44,9 +45,9 @@ export default function Register(props) {
     //     navigate('/')
     // }
 
-    const googleAuthentication = () => {
-        window.open('http://localhost:3001/auth/google/callback', "_self");
-    }
+    // const googleAuthentication = () => {
+    //     window.open('http://localhost:3001/auth/google/callback', "_self");
+    // }
 
     return (
         <div>

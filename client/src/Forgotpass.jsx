@@ -13,7 +13,8 @@ export default function Forgotpass() {
             alert("Enter the Registered mail ID");
             return;
         }
-        axios.post('http://localhost:3001/user/forgotPass', { email })
+        // axios.post('http://localhost:3001/user/forgotPass', { email })
+        axios.post('/user/forgotPass', { email })
             .then(res => {
                 if(res.data=="RESET mail Send Successfully"){
                     alert("RESET mail Send Successfully on the Registered Mail");

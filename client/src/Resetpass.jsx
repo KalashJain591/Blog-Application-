@@ -10,7 +10,8 @@ export default function Resetpass() {
   const navigate = useNavigate();
   const [valid, setValid] = useState(false);
   const userValid = () => {
-    axios.get(`http://localhost:3001/user/check/${id}/${token}`)
+    // axios.get(`http://localhost:3001/user/check/${id}/${token}`)
+    axios.get(`/user/check/${id}/${token}`)
       .then(res => {
         console.log(res);
         if (res.data === "USER VALID")

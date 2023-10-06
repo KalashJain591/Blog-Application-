@@ -36,7 +36,8 @@ function App() {
   //  },[]);
 
     useEffect(()=>{
-      axios.get('http://localhost:3001/user/check')
+      // axios.get('http://localhost:3001/user/check')
+      axios.get('/user/check')
       .then(user=>{setUser(user.data);console.log(user.data)})
       .catch(err=>{console.log(err)})
     },[])
@@ -44,7 +45,8 @@ function App() {
     const [isAuth,setauth]=useState(false);
 
     useEffect(()=>{
-      axios.get('http://localhost:3001/user/check')
+      // axios.get('http://localhost:3001/user/check')
+      axios.get('/user/check')
       .then(user=>{setUser(user.data);console.log(user.data)})
       .catch(err=>{console.log(err)})
     },[isAuth]);

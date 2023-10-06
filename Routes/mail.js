@@ -11,7 +11,7 @@ const mailer = async (arg , content) => {
     service: 'gmail',
     auth: {
       user: 'thekalash52@gmail.com',
-      pass: 'mlcujevugxqbgmqt'
+      pass: 'jija tobj tcnv kjtz'
     }
   });
 

@@ -73,7 +73,9 @@ export default function EditPost() {
     // This hook is to initially get the current data of the post to be edited
     console.log(id);
     useEffect(() => {
-        axios.get('http://localhost:3001/post/getPostById/' + id)
+        // axios.get('http://localhost:3001/post/getPostById/' + id)
+        axios.get('/post/getPostById/' + id)
+
             .then(res => {
                 console.log(id);
                 console.log(res);
@@ -112,7 +114,9 @@ export default function EditPost() {
 
 
         console.log(postData);
-        axios.put(`http://localhost:3001/post/editPost/${id}`, postData)
+        // axios.put(`http://localhost:3001/post/editPost/${id}`, postData)
+        axios.put(`/post/editPost/${id}`, postData)
+
             .then(res => {
                 console.log(res)
                 if (res.data == "Updated Successfully")

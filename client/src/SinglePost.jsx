@@ -9,7 +9,7 @@ export default function SinglePost() {
     // console.log(id);
     const [singlePost, setPost] = useState({ likes: [] });
     const [flag, setFlag] = useState(1);
-    const[stats, setStatus] = useState(0);
+    const [stats, setStatus] = useState(0);
     const navigate = useNavigate()
     const [popup, setpopup] = useState(true);
     const { user } = useContext(userContext);
@@ -17,32 +17,35 @@ export default function SinglePost() {
 
     // console.log(user);
     useEffect(() => {
-        axios.get('http://localhost:3001/post/getPostById/' + id)
+        // axios.get('http://localhost:3001/post/getPostById/' + id)
+        axios.get('/post/getPostById/' + id)
             .then(res => { console.log(res.data); setPost(res.data) })
             .catch(err => console.log(err))
 
     }, [stats])
 
-    const getDte=(T)=>{
+    const getDte = (T) => {
         // DT=new Date(DT);
         // console.log(T);
-        let DT=new Date(T);
-        let s=DT.getDate()+" "+months[DT.getMonth()]+" "+ DT.getFullYear();
+        let DT = new Date(T);
+        let s = DT.getDate() + " " + months[DT.getMonth()] + " " + DT.getFullYear();
         // console.log(s);
-            
-            return s;
-        }
+
+        return s;
+    }
 
     const Like = () => {
         if (user == "No Token Found") {
             alert("login First");
             return;
         }
-        if(singlePost.likes.includes(user.email)){
+        if (singlePost.likes.includes(user.email)) {
             alert("you already liked");
             return;
         }
-        axios.put(`http://localhost:3001/post/likePost/${id}`, { email: user.email })
+        // axios.put(`http://localhost:3001/post/likePost/${id}`, { email: user.email })
+        axios.put(`/post/likePost/${id}`, { email: user.email })
+
             .then(res => { console.log(res); setStatus(!stats); })
             .catch(err => console.log(err))
     }
@@ -52,17 +55,21 @@ export default function SinglePost() {
             alert("login First");
             return;
         }
-        if(!singlePost.likes.includes(user.email)){
+        if (!singlePost.likes.includes(user.email)) {
             alert("you can only Unlike Post and do not Dislike someone's Work");
             return;
         }
-        axios.put(`http://localhost:3001/post/unlikePost/${id}`, { email: user.email })
+        // axios.put(`http://localhost:3001/post/unlikePost/${id}`, { email: user.email })
+        axios.put(`/post/unlikePost/${id}`, { email: user.email })
+
             .then(res => { console.log(res); setStatus(!stats); })
             .catch(err => console.log(err))
     }
 
     const onDelete = () => {
-        axios.delete(`http://localhost:3001/post/deletePost/${id}`)
+        // axios.delete(`http://localhost:3001/post/deletePost/${id}`)
+        axios.delete(`/post/deletePost/${id}`)
+
             .then(res => {
                 console.log(res)
                 if (res.data == "Deleted Successfully")
@@ -99,8 +106,8 @@ export default function SinglePost() {
                         <img width="25" height="25" src="https://img.icons8.com/emoji/48/000000/heart-suit.png" alt="heart-suit" />
                         <p >{singlePost.likes.length} Likes </p>
                         <div>
-                        <img width="25" height="25" src="https://img.icons8.com/ios/50/comments--v1.png" alt="comments--v1" className='mx-2'/>
-                        <span>Comments</span>
+                            <img width="25" height="25" src="https://img.icons8.com/ios/50/comments--v1.png" alt="comments--v1" className='mx-2' />
+                            <span>Comments</span>
                         </div>
                         <div className='  ms-auto '>
                             <img onClick={Like} width="25" height="25" src="https://img.icons8.com/ios-glyphs/30/thumb-up--v1.png" alt="thumb-up--v1" />
