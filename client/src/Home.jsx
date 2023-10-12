@@ -12,12 +12,12 @@ export default function Home() {
     // const [post, setPost] = useState({})=> This is invalid because we are intializing with empty object .
     const [post, setPost] = useState([]); // initialized with empty array , because fetched data is also an array of objects . And also map function only works on the array dataStructure 
     useEffect(() => {
-        axios.get('/post/getPost')
+        axios.get('/api/post/getPost')
             .then(posts => {
-                // console.log(posts); 
+                console.log("ALL POST",posts); 
                 setPost(posts.data)
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log("ERR In ALL POST",err))
     }, [])
 
 

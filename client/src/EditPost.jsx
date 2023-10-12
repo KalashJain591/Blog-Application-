@@ -74,7 +74,7 @@ export default function EditPost() {
     console.log(id);
     useEffect(() => {
         // axios.get('http://localhost:3001/post/getPostById/' + id)
-        axios.get('/post/getPostById/' + id)
+        axios.get('/api/post/getPostById/' + id)
 
             .then(res => {
                 console.log(id);
@@ -115,7 +115,7 @@ export default function EditPost() {
 
         console.log(postData);
         // axios.put(`http://localhost:3001/post/editPost/${id}`, postData)
-        axios.put(`/post/editPost/${id}`, postData)
+        axios.put(`/api/post/editPost/${id}`, postData)
 
             .then(res => {
                 console.log(res)

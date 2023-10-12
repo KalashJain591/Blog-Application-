@@ -11,7 +11,7 @@ export default function Resetpass() {
   const [valid, setValid] = useState(false);
   const userValid = () => {
     // axios.get(`http://localhost:3001/user/check/${id}/${token}`)
-    axios.get(`/user/check/${id}/${token}`)
+    axios.get(`/api/user/check/${id}/${token}`)
       .then(res => {
         console.log(res);
         if (res.data === "USER VALID")
@@ -29,7 +29,8 @@ export default function Resetpass() {
   // console.log(id + " " + token);
   const updatePass = () => {
     if (password != "" && confirmPass != "" && password === confirmPass) {
-      axios.post(`http://localhost:3001/user/updatePass/${id}/${token}`, { password })
+      // axios.post(`http://localhost:3001/user/updatePass/${id}/${token}`, { password })
+      axios.post(`/api/user/updatePass/${id}/${token}`, { password })
         .then(res  => {
           console.log(res);
           if (res.data == "UPDATED PASSWORD"){

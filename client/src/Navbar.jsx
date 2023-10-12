@@ -10,12 +10,12 @@ export default function Navbar(props) {
     console.log(user);
     const handleLogout = () => {
         // axios.get('http://localhost:3001/auth/logout')
-        axios.get('/auth/logout')
+        axios.get('/api/auth/logout')
         .then(res=>console.log("getting out "))
         .catch(err=>console.log(err))
         
         // axios.get('http://localhost:3001/user/logout')
-        axios.get('/user/logout')
+        axios.get('/api/user/logout')
 
             .then(res => {
                 if (res.data == "Logout Succesfully") {

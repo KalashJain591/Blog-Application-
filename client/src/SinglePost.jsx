@@ -18,7 +18,7 @@ export default function SinglePost() {
     // console.log(user);
     useEffect(() => {
         // axios.get('http://localhost:3001/post/getPostById/' + id)
-        axios.get('/post/getPostById/' + id)
+        axios.get('/api/post/getPostById/' + id)
             .then(res => { console.log(res.data); setPost(res.data) })
             .catch(err => console.log(err))
 
@@ -44,7 +44,7 @@ export default function SinglePost() {
             return;
         }
         // axios.put(`http://localhost:3001/post/likePost/${id}`, { email: user.email })
-        axios.put(`/post/likePost/${id}`, { email: user.email })
+        axios.put(`/api/post/likePost/${id}`, { email: user.email })
 
             .then(res => { console.log(res); setStatus(!stats); })
             .catch(err => console.log(err))
@@ -60,7 +60,7 @@ export default function SinglePost() {
             return;
         }
         // axios.put(`http://localhost:3001/post/unlikePost/${id}`, { email: user.email })
-        axios.put(`/post/unlikePost/${id}`, { email: user.email })
+        axios.put(`/api/post/unlikePost/${id}`, { email: user.email })
 
             .then(res => { console.log(res); setStatus(!stats); })
             .catch(err => console.log(err))
@@ -68,7 +68,7 @@ export default function SinglePost() {
 
     const onDelete = () => {
         // axios.delete(`http://localhost:3001/post/deletePost/${id}`)
-        axios.delete(`/post/deletePost/${id}`)
+        axios.delete(`/api/post/deletePost/${id}`)
 
             .then(res => {
                 console.log(res)
