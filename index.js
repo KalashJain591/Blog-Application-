@@ -1,6 +1,5 @@
 const express = require("express")
 const path = require("path")
-const PORT = process.env.PORT ||3001||8080
 const app = express();
 require("dotenv").config();
 const mongoose = require("mongoose")
@@ -23,6 +22,7 @@ const postRoute=require('./Routes/postRoute');
 app.use(express.json());
 app.use(cookieParser()); 
 
+const PORT = process.env.PORT ||3001||8080
 app.use(cookieSession({
   name:"session",
   keys:["kalash"],
@@ -38,9 +38,14 @@ app.use(cors({
   credentials: true
 }))
 
-app.use('/auth',authRoute);
-app.use('/user',userRoute);
-app.use('/post',postRoute);
+app.use('/api/auth',authRoute);
+app.use('/api/user',userRoute);
+app.use('/api/post',postRoute);
+
+app.get("/test",(req,res)=>{
+    res.send("TESTING")
+})
+
 mongoose.connect("mongodb+srv://kalashj93:ge7YdzZAVMjKBYPV@cluster0.a9x7n71.mongodb.net/?retryWrites=true&w=majority")
 // mongoose.connect("mongodb://127.0.0.1:27017/Blog")
 .then(()=>{console.log('Mongodb connected')})
