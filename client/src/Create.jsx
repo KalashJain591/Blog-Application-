@@ -93,7 +93,7 @@ export default function Create() {
           ref={editor}
           value={desc}
           tabIndex={1}
-          onChange={(e) => { setDesc(e); console.log(desc); }}
+          onChange={(e) => { setDesc(e); }}
         />
         <input type="text" className="form-control title my-4" placeholder='Enter Display Text' onChange={(e) => setDisplayText(e.target.value)} value={displayText} />
 

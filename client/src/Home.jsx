@@ -14,7 +14,7 @@ export default function Home() {
     useEffect(() => {
         axios.get('/api/post/getPost')
             .then(posts => {
-                console.log("ALL POST",posts); 
+                // console.log("ALL POST",posts); 
                 setPost(posts.data)
             })
             .catch(err => console.log("ERR In ALL POST",err))

@@ -3,7 +3,7 @@ import './Blog.css'
 import { NavLink } from 'react-router-dom';
 export default function BlogCard(props) {
   props = props.data;
-  console.log(props);
+  // console.log(props);
   const [time, setTime] = useState(1 + "D");
   useEffect(() => {
     const currentDate = new Date();

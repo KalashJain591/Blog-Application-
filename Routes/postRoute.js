@@ -112,9 +112,9 @@ router.put('/editPost/:id', verifyUser, (req, res) => {
   PostModel.findOneAndUpdate({ _id: id }, { title: req.body.title, desc: req.body.desc, imgLink: req.body.imgLink, updateOn: new Date() ,displayText: req.body.displayText})
     .then(user => {
       console.log("link found");
-      res.json("Updated Successfully");
+      // res.json("Updated Successfully");
     })
-    .catch(err => console.log(err))
+    .catch(err => console.log(err+ "Error occured here "))
   res.json("Updated Successfully");
 })
 

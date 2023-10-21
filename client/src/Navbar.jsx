@@ -7,7 +7,7 @@ export default function Navbar(props) {
     // console.log(user );
     const {user} = useContext(userContext);
     const navigate = useNavigate();
-    console.log(user);
+    // console.log(user);
     const handleLogout = () => {
         // axios.get('http://localhost:3001/auth/logout')
         axios.get('/api/auth/logout')

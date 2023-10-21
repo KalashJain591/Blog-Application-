@@ -19,7 +19,8 @@ export default function SinglePost() {
     useEffect(() => {
         // axios.get('http://localhost:3001/post/getPostById/' + id)
         axios.get('/api/post/getPostById/' + id)
-            .then(res => { console.log(res.data); setPost(res.data) })
+            // .then(res => { console.log(res.data); setPost(res.data) })
+            .then(res => {  setPost(res.data) })
             .catch(err => console.log(err))
 
     }, [stats])
@@ -71,7 +72,7 @@ export default function SinglePost() {
         axios.delete(`/api/post/deletePost/${id}`)
 
             .then(res => {
-                console.log(res)
+                // console.log(res)
                 if (res.data == "Deleted Successfully")
                     navigate('/')
             })

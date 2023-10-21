@@ -22,6 +22,7 @@ export default function EditPost() {
     const [cat, setcat] = useState(); 
     const getRef = (url) => {
         var imageUrl = url;
+        console.log(url);
         var parts = imageUrl.split("?");
         var imagePath = parts[0];
         imagePath = decodeURIComponent(imagePath);
@@ -46,7 +47,7 @@ export default function EditPost() {
         try {
             if (file) {
                 const downloadURL = await uploadFile(file, "imgUrl");
-                console.log(img);
+                console.log(downloadURL);
                 // checkImage(img)
                 if (file.size > 200000) {
                     alert("File size should be less than 5 KB");
@@ -57,7 +58,7 @@ export default function EditPost() {
                     return;
                 }
                 // To delete the old existing image .
-                const fileRef = getRef(img);
+                const fileRef = getRef(downloadURL);
                 console.log(fileRef);
                 if (fileRef != defaultRef) await DeleteImage(fileRef);
                 return downloadURL;
@@ -71,14 +72,14 @@ export default function EditPost() {
     }
 
     // This hook is to initially get the current data of the post to be edited
-    console.log(id);
+    // console.log(id);
     useEffect(() => {
         // axios.get('http://localhost:3001/post/getPostById/' + id)
         axios.get('/api/post/getPostById/' + id)
 
             .then(res => {
-                console.log(id);
-                console.log(res);
+                // console.log(id);
+                // console.log(res);
                 setTitle(res.data.title);
                 setDesc(res.data.desc);
                 setImg(res.data.imgLink);
@@ -134,7 +135,9 @@ export default function EditPost() {
                     ref={editor}
                     value={desc}
                     tabIndex={1}
-                    onChange={(e) => { setDesc(e); console.log(desc); }}
+                    onChange={(e) => { setDesc(e);}}
+
+                    // onChange={(e) => { setDesc(e); console.log(desc); }}
                 />
                 <input type="text" className="form-control title my-4" placeholder='Enter Display Text' onChange={(e) => setDisplayText(e.target.value)} value={displayText} />
                 <select name="Category" id="cars" value={cat} onChange={(e) => {setcat(e.target.value);console.log(cat);}}>
