@@ -49,11 +49,19 @@ router.get('/logout', (req, res) => {
     res.json("Logout Succesfully");
 })
 
-router.post('/register', (req, res) => {
+router.post('/register', async(req, res) => {
     const { username, email, password } = req.body;
     console.log(username + email + password);
-    if (!(username && email && password))
-        return res.json("Incomplete Details");
+
+    // if (!(username && email && password)) {
+    //     res.json("Incomplete Details");
+    //     // return;
+    // }
+
+   const user = await UserModel.findOne({ email });
+   if (user) { res.json("User already Exists with this email");return ; }
+       
+
     // Just creating ans hash of the password 
     bcrypt.hash(password, 10)
         .then(hash => {
@@ -70,7 +78,7 @@ router.post('/register', (req, res) => {
 
                     res.json("Registeration Successfull")
                 })
-                .catch(err => res.json(err))
+                .catch(err => res.json(err+"    2323here "))
         })
         .catch(err => console.log(err))
 })
@@ -125,12 +133,12 @@ router.post("/forgotPass", async (req, res) => {
                 const setusertoken = await UserModel.findByIdAndUpdate({ _id: id }, { verifytoken: encodedToken }, { new: true });
                 const string = `This Link Valid For 2 MINUTES http://localhost:5173/reset-password/${id}/${encodedToken}`;
                 mailer(email, string)
-                    .then(fun => { 
-                        console.log("Reset mail Sent") ; 
-                        return res.json("RESET mail Send Successfully") ;
+                    .then(fun => {
+                        console.log("Reset mail Sent");
+                        return res.json("RESET mail Send Successfully");
                     })
                     .catch(err => { console.log("Some error") })
-                
+
             }
             else {
                 return res.json("User Don't Exist");
@@ -145,7 +153,7 @@ router.get("/check/:id/:token", async (req, res) => {
     const { token } = req.params;
     // console.log(id +" 3434 " + token );
     UserModel.findById({ _id: id })
-        .then( user => {
+        .then(user => {
             if (user) {
                 // console.log("hell");
                 const decodedToken = base64url.decode(token);
@@ -175,8 +183,8 @@ router.post("/updatePass/:id/:token", async (req, res) => {
             .then(newPass => {
 
                 UserModel.findByIdAndUpdate({ _id: id }, { password: newPass })
-                    .then(fun=> {return res.json("UPDATED PASSWORD");})
-                    .catch(err => {console.log(err);return res.json("UPDATE FAILED")})
+                    .then(fun => { return res.json("UPDATED PASSWORD"); })
+                    .catch(err => { console.log(err); return res.json("UPDATE FAILED") })
             })
             .catch(err => console.log(err))
     }

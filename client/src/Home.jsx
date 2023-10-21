@@ -4,12 +4,7 @@ import { NavLink } from 'react-router-dom';
 import "./App"
 import BlogCard from './Blog/BlogCard';
 export default function Home() {
-    // const [post, setPost] = useState({
-    //     title:"",
-    //     desc:"",
-    //     file:"",
-    // });
-    // const [post, setPost] = useState({})=> This is invalid because we are intializing with empty object .
+   
     const [post, setPost] = useState([]); // initialized with empty array , because fetched data is also an array of objects . And also map function only works on the array dataStructure 
     useEffect(() => {
         axios.get('/api/post/getPost')

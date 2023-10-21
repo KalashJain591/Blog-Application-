@@ -6,6 +6,7 @@ import uploadFile from './UploadCheck'
 import { userContext } from './App';
 import { getStorage, ref, deleteObject } from "firebase/storage";
 import { async } from '@firebase/util';
+import { trackPromise } from 'react-promise-tracker';
 const defaultRef = "temp.jpeg";
 
 export default function EditPost() {
@@ -39,16 +40,13 @@ export default function EditPost() {
             console.log("File Deleted")
         }).catch((error) => {
             // Uh-oh, an error occurred!
-            console.log("File not Deleted")
+            console.log("File not Deleted" +err)
         });
     }
 
     const handleupload = async (file) => {
         try {
             if (file) {
-                const downloadURL = await uploadFile(file, "imgUrl");
-                console.log(downloadURL);
-                // checkImage(img)
                 if (file.size > 200000) {
                     alert("File size should be less than 5 KB");
                     return;
@@ -57,8 +55,11 @@ export default function EditPost() {
                     alert("File Type should be png, jpeg or jpg");
                     return;
                 }
+                const downloadURL = await uploadFile(file, "imgUrl");
+                console.log(downloadURL);
+                // checkImage(img)
                 // To delete the old existing image .
-                const fileRef = getRef(downloadURL);
+                const fileRef = getRef(img);
                 console.log(fileRef);
                 if (fileRef != defaultRef) await DeleteImage(fileRef);
                 return downloadURL;
@@ -75,6 +76,7 @@ export default function EditPost() {
     // console.log(id);
     useEffect(() => {
         // axios.get('http://localhost:3001/post/getPostById/' + id)
+        trackPromise(
         axios.get('/api/post/getPostById/' + id)
 
             .then(res => {
@@ -88,6 +90,7 @@ export default function EditPost() {
 
             })
             .catch(err => console.log(err))
+        );
 
     }, []);
 

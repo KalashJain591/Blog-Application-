@@ -4,6 +4,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { userContext } from './App';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { trackPromise } from 'react-promise-tracker';
 // import UserModel from '../../server/models/UserModel';
 
 export default function Register(props) {
@@ -13,6 +14,7 @@ export default function Register(props) {
     const [checkPassword, check] = useState();
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
+    const [Modalstate, setModalstate] = useState("");
     const { googleAuth } = useContext(userContext);
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -24,19 +26,26 @@ export default function Register(props) {
         }
         if (Password != checkPassword) { alert("Password don't Match"); return; }
         if (Password.length < 5) { alert("Password length should be greater than 4"); return; }
+        if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,}$/.test(Password))) {
+            alert("Password is Weak")
+            return;
+        }
         // axios.post('http://localhost:3001/user/register', { username, email, password: Password })
-        axios.post('/api/user/register', { username, email, password: Password })
-            .then(res => {
-                console.log(res);
-                if (res.data == "Registeration Successfull") {
-                    navigate('/');
-                    props.setauth(true);
-                }
-                else {
-                    setShowModal(true);
-                }
-            })
-            .catch(err => console.log(err));
+        trackPromise(
+            axios.post('/api/user/register', { username, email, password: Password })
+                .then(res => {
+                    console.log(res);
+                    if (res.data == "Registeration Successfull") {
+                        navigate('/');
+                        props.setauth(true);
+                    }
+                    else {
+                        setModalstate(res.data);
+                        setShowModal(true);
+                    }
+                })
+                .catch(err => console.log(err))
+        );
     }
 
     // if(googleAuth)
@@ -85,7 +94,12 @@ export default function Register(props) {
                                                     <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
                                                     <div className="form-outline flex-fill mb-0">
                                                         <input type="password" id="form3Example4c" className="form-control" onChange={e => setPassword(e.target.value)} />
-                                                        <label className="form-label" for="form3Example4c">Password</label>
+                                                        <label className="form-label" for="form3Example4c">Password
+                                                            <ul style={{ fontSize: ".75rem" }}><li>At least 5 characters long</li>
+                                                                <li>Contains a mix of uppercase and lowercase letters.</li>
+                                                                <li>Contains at least one digit (0-9).</li>
+                                                                <li>Contains at least one special character (e.g., !@#$%^&*).</li></ul>
+                                                        </label>
                                                     </div>
                                                 </div>
 
@@ -121,7 +135,7 @@ export default function Register(props) {
             </section>
             <Modal show={showModal} onHide={() => setShowModal(false)} centered>
                 {/* <Modal.Header closeButton> */}
-                <Modal.Title className='text-center m-2'>Please ensure all fields are completely filled mandatory</Modal.Title>
+                <Modal.Title className='text-center m-2'>{Modalstate}</Modal.Title>
                 {/* </Modal.Header> */}
                 <Modal.Footer>
 

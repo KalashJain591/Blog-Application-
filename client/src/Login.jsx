@@ -4,6 +4,8 @@ import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { userContext } from './App';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { trackPromise } from 'react-promise-tracker';
+
 export default function Login(props) {
 
     const [username, setUsername] = useState();
@@ -17,19 +19,21 @@ export default function Login(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         // console.log(username); 
-        axios.post('/api/user/login', { username, email, password })
-            .then(res => {
-                console.log(res.data)
-                if (res.data === "Login Successful") {
-                    props.setauth(true);
-                    navigate('/');
-                }
-                else {
-                    setShowModal(true);
-                    // alert("Some Error Occured, Please try again later");
-                }
-            })
-            .catch(err => console.log(err))
+        trackPromise(
+            axios.post('/api/user/login', { username, email, password })
+                .then(res => {
+                    console.log(res.data)
+                    if (res.data === "Login Successful") {
+                        props.setauth(true);
+                        navigate('/');
+                    }
+                    else {
+                        setShowModal(true);
+                        // alert("Some Error Occured, Please try again later");
+                    }
+                })
+                .catch(err => console.log(err))
+        );
     }
 
     // if(googleAuth)

@@ -13,6 +13,7 @@ import Forgotpass from './Forgotpass'
 import Error from './Error'
 // import UploadCheck from './UploadCheck'
 import Getimg from './Getimg'
+import { LoadingSpiner } from './LoadingSpinner'
 export const userContext = createContext();
   
 function App() {
@@ -58,6 +59,7 @@ function App() {
          <userContext.Provider value={{user,googleAuth,isAuth}}>
          <BrowserRouter>
           <Navbar setauth={setauth} />
+          <LoadingSpiner/>
           <Routes>
             <Route path='/register' element={<Register setauth={setauth} />}></Route>
             <Route path='/login' element={<Login setauth={setauth} />}></Route>
