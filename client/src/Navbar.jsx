@@ -2,18 +2,19 @@ import React, { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { userContext } from './App'
 import axios from 'axios';
-
+import './NavBar.css'
 export default function Navbar(props) {
+
     // console.log(user );
-    const {user} = useContext(userContext);
+    const { user } = useContext(userContext);
     const navigate = useNavigate();
     // console.log(user);
     const handleLogout = () => {
         // axios.get('http://localhost:3001/auth/logout')
         axios.get('/api/auth/logout')
-        .then(res=>console.log("getting out "))
-        .catch(err=>console.log(err))
-        
+            .then(res => console.log("getting out "))
+            .catch(err => console.log(err))
+
         // axios.get('http://localhost:3001/user/logout')
         axios.get('/api/user/logout')
 
@@ -24,42 +25,48 @@ export default function Navbar(props) {
                 }
             })
             .catch(err => console.log(err))
-        
+
     }
 
     return (
         <div className>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div className="container-fluid">
-                    <a className="navbar-brand" href="#">Blog App</a>
-                    <div className='align-items-center'>
-                        <Link className="navbar-brand" to="/"> Home</Link>
-                        {
-                            user.name?
-                            <Link className="navbar-brand" to="/create"> Create</Link>
-                            :
-                            <></>
 
-                        }
-                         <Link className="navbar-brand" to="#"> Contact</Link>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#" style={{ textDecoration: "none", fontSize: "1.5rem" }} >Blog App</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarScroll">
+                        <ul class="navbar-nav  my-2 my-lg-0 navbar-nav-scroll" style={{ "--bs-scroll-height": "100px" }}>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Contact</a>
+                            </li>
+
+                        </ul>
+                        <form class="ms-auto ">
+
+                            {/* <button class="btn btn-outline-success" type="submit">Search</button> */}
+                            {
+
+                                user.name ?
+                                    <>
+                                        <Link className="text-center" onClick={handleLogout} style={{ textDecoration: "none", fontSize: "1.25rem", color: "white" }} to="/register"><button className="my-button">Logout </button></Link></>
+
+                                    :
+                                    <>
+                                        <Link className="text-center" style={{ textDecoration: "none", fontSize: "1.25rem", color: "white" }} to="/register"><button className="my-button">Register/Login </button></Link></>
+
+
+                                // <Link className="loginButton text-center" style={{ textDecoration: "none", fontSize: "1.25rem", color: "white" }} to="/register"> register/Login </Link>
+
+
+                            }
+                        </form>
                     </div>
-
-                    {
-
-                        user.name ?
-                            <div>
-                                <Link className="navbar-brand" onClick={handleLogout}> Logout</Link>
-                            </div>
-                            :
-                            <div>
-                                <Link className="navbar-brand" to="/register"> register/LogIn</Link>
-                            </div>
-
-                    }
-
-
-
-
                 </div>
             </nav>
         </div>

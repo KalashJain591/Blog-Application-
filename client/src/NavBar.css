@@ -1,0 +1,16 @@
+/* ButtonStyles.css */
+.my-button {
+    background-color: transparent;
+    border: 2px solid #333;
+    border-radius: 5px;
+    padding: 10px 20px;
+    color: white;
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
+  }
+  
+  .my-button:hover {
+    background-color: white;
+    color: black;
+  }
+  
