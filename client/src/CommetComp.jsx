@@ -23,14 +23,14 @@ const CommetComp = (props) => {
     
     console.log(props.author);
     axios.put(`/api/post/deleteComment/${id}`, { cid: props._id,email: props.author })
-      .then(res => console.log(res))
+      .then(res => {console.log(res);window.location.reload(false);})
       .catch(err => console.log(err))
   }
 
   const Update = () => {
     console.log(update);
     axios.put(`/api/post/EditComment/${id}`, { cid: props._id, comment: update })
-      .then(res => console.log(res))
+      .then(res => {console.log(res);window.location.reload(false);})
       .catch(err => console.log(err))
   }
   return (

@@ -47,7 +47,7 @@ export default function EditPost() {
     const handleupload = async (file) => {
         try {
             if (file) {
-                if (file.size > 200000) {
+                if (file.size > 100000) {
                     alert("Image File size should be less than 1 MB");
                     return;
                 }

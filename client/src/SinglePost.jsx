@@ -104,7 +104,7 @@ export default function SinglePost() {
 
         console.log(inputValue);
         axios.post(`/api/post/addcomment/${id}`, { name: user.name, email: user.email, comment: inputValue })
-            .then(res => console.log(res))
+            .then(res => { console.log(res); window.location.reload(false); })
             .catch(err => console.log("eror in Comment " + err))
     }
     // console.log(inputValue);
