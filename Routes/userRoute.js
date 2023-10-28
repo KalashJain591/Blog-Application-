@@ -131,7 +131,7 @@ router.post("/forgotPass", async (req, res) => {
                 console.log(encodedToken);
                 // const token ="hello reset"
                 const setusertoken = await UserModel.findByIdAndUpdate({ _id: id }, { verifytoken: encodedToken }, { new: true });
-                const string = `This Link Valid For 2 MINUTES http://localhost:5173/reset-password/${id}/${encodedToken}`;
+                const string = `This Link Valid For 2 MINUTES https://codershub-pczs.onrender.com/reset-password/${id}/${encodedToken}`;
                 mailer(email, string)
                     .then(fun => {
                         console.log("Reset mail Sent");

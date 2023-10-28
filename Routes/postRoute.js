@@ -56,10 +56,10 @@ const verifyUser = (req, res, next) => {
 
 router.post('/create', verifyUser, async (req, res) => {
 
-// if User don't upload any image
+  // if User don't upload any image
   if (req.body.imgLink === undefined)
     req.body.imgLink = default_image;
-  
+
   // console.log(req.body.imgLink);
 
   const user = await UserModel.findOne({ email: req.body.email });
@@ -67,7 +67,7 @@ router.post('/create', verifyUser, async (req, res) => {
 
 
 
-  PostModel.create({ title: req.body.title, desc: req.body.desc, email: req.body.email, displayText: req.body.displayText, imgLink: req.body.imgLink, name: user.name, createOn: new Date(), updateOn: new Date(),category:req.body.category })
+  PostModel.create({ title: req.body.title, desc: req.body.desc, email: req.body.email, displayText: req.body.displayText, imgLink: req.body.imgLink, name: user.name, createOn: new Date(), updateOn: new Date(), category: req.body.category })
     .then(user => {
       res.json("Posted Successfully");
     })
@@ -98,7 +98,7 @@ router.put('/editPost/:id', verifyUser, (req, res) => {
   // This is done if no new file is uploaded 
   if (req.body.imgLink === null) {
     // console.log("link not found");
-    PostModel.findOneAndUpdate({ _id: id }, { title: req.body.title, desc: req.body.desc, updateOn: new Date() ,category:req.body.category,displayText: req.body.displayText})
+    PostModel.findOneAndUpdate({ _id: id }, { title: req.body.title, desc: req.body.desc, updateOn: new Date(), category: req.body.category, displayText: req.body.displayText })
       .then(user => {
 
         res.json("Updated Successfully");
@@ -109,12 +109,12 @@ router.put('/editPost/:id', verifyUser, (req, res) => {
 
 
   // It inserts the new image file+Data into the database 
-  PostModel.findOneAndUpdate({ _id: id }, { title: req.body.title, desc: req.body.desc, imgLink: req.body.imgLink, updateOn: new Date() ,displayText: req.body.displayText})
+  PostModel.findOneAndUpdate({ _id: id }, { title: req.body.title, desc: req.body.desc, imgLink: req.body.imgLink, updateOn: new Date(), displayText: req.body.displayText })
     .then(user => {
       console.log("link found");
       // res.json("Updated Successfully");
     })
-    .catch(err => console.log(err+ "Error occured here "))
+    .catch(err => console.log(err + "Error occured here "))
   res.json("Updated Successfully");
 })
 
@@ -125,20 +125,70 @@ router.delete('/deletePost/:id', (req, res) => {
     .catch(err => res.json(err));
 })
 
-router.put('/likePost/:id',verifyUser,(req,res)=>{
-  let postID=req.params.id;
-  let userEmail=req.body.email;
+router.put('/likePost/:id', verifyUser, (req, res) => {
+  let postID = req.params.id;
+  let userEmail = req.body.email;
   console.log(userEmail);
-  PostModel.findByIdAndUpdate(postID,{$push:{likes:userEmail}},{new:true})
-  .then(data=>res.json(data))
-  .catch(err=>{console.log("Error in likePost: "+ err)})
-  
+  PostModel.findByIdAndUpdate(postID, { $push: { likes: userEmail } }, { new: true })
+    .then(data => res.json(data))
+    .catch(err => { console.log("Error in likePost: " + err) })
+
 })
-router.put('/unlikePost/:id',(req,res)=>{
-  let postID=req.params.id;
-  let userEmail=req.body.email;
-  PostModel.findByIdAndUpdate(postID,{$pull:{likes:userEmail}},{new:true})
-  .then(data=>res.json(data))
-  .catch(err=>{console.log("Error in unlikePost: "+err)})
+
+router.put('/unlikePost/:id', verifyUser, (req, res) => {
+  let postID = req.params.id;
+  let userEmail = req.body.email;
+  PostModel.findByIdAndUpdate(postID, { $pull: { likes: userEmail } }, { new: true })
+    .then(data => res.json(data))
+    .catch(err => { console.log("Error in unlikePost: " + err) })
 })
+// let d=new Date()
+// console.log(d.getDate()+"/" +d.getMonth()+"/"+d.getFullYear());
+router.post('/addcomment/:id', verifyUser, (req, res) => {
+  let postID = req.params.id;
+  let userEmail = req.body.email;
+  let userName = req.body.name;
+  let comment = req.body.comment;
+  let d = new Date();
+  let date = d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear()
+
+  PostModel.findByIdAndUpdate(postID, { $push: { comments: { PostedBy: userName, PostedOn: date, Desc: comment, author: userEmail } } })
+    .then((data) => { res.json(data.comments[data.comments.length - 1]); console.log("Succes comment"); })
+    .catch((err) => console.log("error in AddComment " + err))
+})
+
+router.put('/deleteComment/:id', async (req, res) => {
+  let userEmail = req.body.email;
+  let PostId = req.params.id;
+  let commentId = req.body.cid;
+  console.log(userEmail);
+  console.log("reached");
+  PostModel.findByIdAndUpdate(PostId, { $pull: { comments: { _id: commentId } } })
+    .then((data) => { res.json("Succesfully deleted comment"); console.log(data); })
+    .catch((err) => console.log("error in deleteComment " + err))
+
+})
+
+router.put('/EditComment/:id', async (req, res) => {
+  let postID = req.params.id;
+  let commentId = req.body.cid;
+  // console.log(commentId);
+  let comment = req.body.comment;
+  // console.log(postID);
+  PostModel.findById({ _id: postID })
+    .then((res) => {
+      // console.log(res.comments);
+      let idx = res.comments.findIndex(obj => obj._id == commentId)
+      // console.log(idx);
+      // console.log(res.comments[idx]);
+      res.comments[idx].Desc = comment;
+      // console.log(res.comments[idx]);
+    })
+    .catch(er => { console.log("hellooooo " + er) })
+  // console.log("hell");
+  // console.log(Arr);
+
+})
+
+
 module.exports = router;

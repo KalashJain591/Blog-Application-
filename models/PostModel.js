@@ -12,6 +12,9 @@ const PostSchema=new mongoose.Schema({
     updateOn:Date,
     category:String,
     likes:[String],
+    comments:[{
+        PostedBy:String,PostedOn:String,Desc:String,author:String,upVoteId:[String]
+    }]
 })
 
 const PostModel=mongoose.model('posts',PostSchema)
