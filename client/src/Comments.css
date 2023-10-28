@@ -1,0 +1,58 @@
+/* Comment.css */
+.comment {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px;
+    background-color: #f2f2f2;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+  }
+  
+  .comment:hover {
+    transform: translateY(-2px);
+  }
+  
+  .comment-author {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .comment-date {
+    color: #777;
+    font-size: 0.85rem;
+  }
+  
+  .comment-description {
+    color: #333;
+    margin: 10px 0;
+  }
+  
+  .comment-upvotes {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+    color: #555;
+    font-size: 0.9rem;
+  }
+  
+  .comment-upvotes span {
+    margin-right: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .comment-upvotes span:hover {
+    color: #ff6b6b;
+  }
+  
+  /* Responsive Styles (if needed) */
+  @media (max-width: 768px) {
+    /* Responsive styles here */
+  }
+  
+  @media (max-width: 576px) {
+    /* More responsive styles here */
+  }
+  

@@ -63,7 +63,30 @@
 .social-icon.linkedin::before {
    content: "L";
 }
-abc{
+.abc{
    display: none ;
    background-color: brown;
 }
+.attractive-section {
+   display: inline-flex;
+   align-items:center;
+   background-color: #fff; /* Set the background color to white */
+   color: #333; /* Set the text color to a dark gray */
+   padding: 10px;
+   text-align: center;
+   border-radius: 10px; /* Add a rounded border */
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a light shadow */
+   transition: box-shadow 0.3s ease-in-out; /* Add a smooth hover effect for the shadow */
+ }
+ 
+ .attractive-section:hover {
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Increase the shadow on hover */
+ }
+ 
+ .attractive-section h1 {
+   font-size: 2rem; /* Increase the font size */
+   border: 2px solid #333; /* Add a border */
+   padding: 10px;
+   border-radius: 5px; /* Add rounded corners to the border */
+ }
+ 

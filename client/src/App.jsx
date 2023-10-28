@@ -11,8 +11,11 @@ import EditPost from './EditPost'
 import Resetpass from './Resetpass'
 import Forgotpass from './Forgotpass'
 import Error from './Error'
+
+
 // import UploadCheck from './UploadCheck'
 import Getimg from './Getimg'
+import About from './About'
 // import { LoadingSpiner } from './LoadingSpinner'
 export const userContext = createContext();
   
@@ -71,7 +74,7 @@ function App() {
             <Route path='/reset-password/:id/:token' element={<Resetpass/>} />
             {/* <Route path='/uploadCheck' element={<UploadCheck/>} />     */}
             <Route path='/GetImg' element={<Getimg/>} />    
-
+            <Route path='/About' element={<About/>}/>
             <Route path='/error' element={<Error/>} />  
           </Routes>
         </BrowserRouter>

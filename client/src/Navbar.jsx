@@ -33,17 +33,29 @@ export default function Navbar(props) {
 
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#" style={{ textDecoration: "none", fontSize: "1.5rem" }} >Blog App</a>
+                    <a class="navbar-brand" href="/" style={{ textDecoration: "none", fontSize: "1.5rem" }} >Blog App</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarScroll">
                         <ul class="navbar-nav  my-2 my-lg-0 navbar-nav-scroll" style={{ "--bs-scroll-height": "100px" }}>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                {/* <a class="nav-link active" aria-current="page" href="#">Home</a> */}
+                                <Link className="nav-link active" to="/"> Home</Link>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Contact</a>
+                                {/* <a class="nav-link active" aria-current="page" href="#">Contact</a> */}
+                                <Link className="nav-link active" to="/About"> About</Link>
+                            </li>
+                            <li>
+                            
+                            {
+                                user.name ?
+                                    <Link className="nav-link active" to="/create"> Create</Link>
+                                    :
+                                    <Link className="nav-link active" to="/login"> Create</Link>
+
+                            }
                             </li>
 
                         </ul>

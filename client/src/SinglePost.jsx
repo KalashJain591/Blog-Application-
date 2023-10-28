@@ -2,7 +2,11 @@ import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { userContext } from './App';
+import { Link, Button, Element, Events, animateScroll as scroll, scrollSpy } from 'react-scroll';
 import './Singlepost.css'
+
+import CommetComp from './CommetComp';
+
 export default function SinglePost() {
     const { id } = useParams();
 
@@ -12,7 +16,12 @@ export default function SinglePost() {
     const [stats, setStatus] = useState(0);
     const navigate = useNavigate()
     const [popup, setpopup] = useState(true);
+    const [inputValue, setInputValue] = useState('');
+    const [comments, setComments] = useState([]);
+
+    // const [currComment,AddingComment]=useState("");
     const { user } = useContext(userContext);
+    // console.log(user);
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
     // console.log(user);
@@ -20,7 +29,7 @@ export default function SinglePost() {
         // axios.get('http://localhost:3001/post/getPostById/' + id)
         axios.get('/api/post/getPostById/' + id)
             // .then(res => { console.log(res.data); setPost(res.data) })
-            .then(res => {  setPost(res.data) })
+            .then(res => { setPost(res.data); setComments(res.data.comments) })
             .catch(err => console.log(err))
 
     }, [stats])
@@ -37,7 +46,7 @@ export default function SinglePost() {
 
     const Like = () => {
         if (user == "No Token Found") {
-            alert("login First");
+            navigate('/login');
             return;
         }
         if (singlePost.likes.includes(user.email)) {
@@ -53,7 +62,7 @@ export default function SinglePost() {
 
     const unLike = () => {
         if (user == "No Token Found") {
-            alert("login First");
+            navigate('/login');
             return;
         }
         if (!singlePost.likes.includes(user.email)) {
@@ -78,8 +87,27 @@ export default function SinglePost() {
             })
             .catch(err => console.log(err))
     }
+    const handleSetActive = (to) => {
+        console.log(to);
+    };
 
+    const scrollToTop = () => {
+        scroll.scrollToTop();
+    };
 
+    const addComment = () => {
+
+        if (user == "No Token Found") {
+            navigate('/login');
+            return;
+        }
+
+        console.log(inputValue);
+        axios.post(`/api/post/addcomment/${id}`, { name: user.name, email: user.email, comment: inputValue })
+            .then(res => console.log(res))
+            .catch(err => console.log("eror in Comment " + err))
+    }
+    // console.log(inputValue);
     return (
         <div className='container-fluid '>
             <h1 className='text-center my-2'>{singlePost.title}</h1>
@@ -87,7 +115,9 @@ export default function SinglePost() {
 
             <div className=" d-flex flex-wrap  align-items-center">
                 <div className=" d-flex  col-lg-4 col-xs-12 m-2">
-                    <img src="https://yt3.ggpht.com/a/AGF-l7-0J1G0Ue0mcZMw-99kMeVuBmRxiPjyvIYONg=s900-c-k-c0xffffffff-no-rj-mo" alt="Author's Image" width="48" height="48" className='m-2 rounded' />
+
+                    <img width="48" height="48" src="https://img.icons8.com/pastel-glyph/64/person-male--v3.png" alt="Author's Image" className='m-2 rounded' />
+
                     <div className="author-details mx-2">
                         <h3>Author: {singlePost.name}</h3>
                         <p>{singlePost.name} is a passionate writer with a love for technology and creativity.</p>
@@ -105,17 +135,28 @@ export default function SinglePost() {
                     {/* <hr /> */}
                     <div className='d-flex '>
                         <img width="25" height="25" src="https://img.icons8.com/emoji/48/000000/heart-suit.png" alt="heart-suit" />
-                        <p >{singlePost.likes.length} Likes </p>
+                        <p className='mx-2' >{singlePost.likes.length} Likes </p>
                         <div>
+
                             <img width="25" height="25" src="https://img.icons8.com/ios/50/comments--v1.png" alt="comments--v1" className='mx-2' />
-                            <span>Comments</span>
+                            <Link
+                                activeClass="active"
+                                to="test1"
+                                spy={true}
+                                smooth={true}
+                                // offset={500}
+                                duration={200}
+                                style={{ cursor: "pointer" }}
+
+                            > Comment</Link>
+                            {/* <span></span> */}
                         </div>
-                        <div className='  ms-auto '>
+                        <div className=' mx-2' style={{ cursor: "pointer" }}>
                             <img onClick={Like} width="25" height="25" src="https://img.icons8.com/ios-glyphs/30/thumb-up--v1.png" alt="thumb-up--v1" />
                             <img onClick={unLike} width="25" height="25" src="https://img.icons8.com/ios-glyphs/30/thumbs-down.png" alt="thumbs-down" />
 
-                            <img width="25" height="25" src="https://img.icons8.com/ios-glyphs/30/share-rounded.png" alt="share-rounded" />
-                            <a href="#">Share</a>
+                            {/* <img className='mx-2' width="25" height="25" src="https://img.icons8.com/ios-glyphs/30/share-rounded.png" alt="share-rounded" /> */}
+                            <a href="#" className='mx-2'>Share</a>
 
                         </div>
                     </div>
@@ -167,6 +208,32 @@ export default function SinglePost() {
                 </div>
 
             </div>
+
+
+            <div className='container ' name="test1">
+                <section class="attractive-section">
+                    {/* <img width="30" height="30" src="https://img.icons8.com/ios/50/speech-bubble--v1.png" alt="speech-bubble--v1"/> */}
+                    <h4 className="text-center mx-2"> {comments.length} Comment</h4>
+                </section>
+
+
+                {/* <input type="text" id="commentInput" name="commentInput" onChange={(e) => { setInputValue(e.target.value) }} /> */}
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1"></label>
+                    <textarea class="form-control " id="exampleFormControlTextarea1" rows="3" onChange={(e) => { setInputValue(e.target.value) }}></textarea>
+                </div>
+
+                <button className=" my-2 btn btn-lg btn-secondary" onClick={addComment}>Add Comment</button>
+                {
+                    comments.map((comm) => {
+                        return <CommetComp data={comm} />;
+                    })
+
+                    // console.log(singlePost.comments)
+                }
+                {/* <CommetComp /> */}
+            </div>
+
         </div>
 
 

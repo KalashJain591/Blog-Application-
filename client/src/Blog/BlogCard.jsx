@@ -56,7 +56,8 @@ export default function BlogCard(props) {
             <div className='user-info-bottom '>
               <NavLink className='' to={`/singlePost/${props._id}`} ><button className='btn btn-sm btn-dark mb-3 '>Read the post </button></NavLink>
               <div className="user">
-                <img src="https://yt3.ggpht.com/a/AGF-l7-0J1G0Ue0mcZMw-99kMeVuBmRxiPjyvIYONg=s900-c-k-c0xffffffff-no-rj-mo" alt="user" />
+               
+                <img src="https://img.icons8.com/pastel-glyph/64/person-male--v3.png" alt="Author's Image"  />
                 <div className="user-info">
                   <h5>{props.name}</h5>
                   <small>{time} ago</small>

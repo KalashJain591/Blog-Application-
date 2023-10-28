@@ -46,8 +46,8 @@ export default function Create() {
     if (file) {
       console.log(file);
       console.log(file.type);
-      if (file.size > 200000) {
-        alert("File size should be less than 5 KB");
+      if (file.size > 100000) {
+        alert("File size should be less than 1 mb");
         return;
       }
       else if (file.type != 'image/png' && file.type != 'image/jpeg' && file.type != 'image.jpg') {
