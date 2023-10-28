@@ -48,7 +48,7 @@ export default function EditPost() {
         try {
             if (file) {
                 if (file.size > 200000) {
-                    alert("File size should be less than 5 KB");
+                    alert("Image File size should be less than 1 MB");
                     return;
                 }
                 else if (file.type != 'image/png' && file.type != 'image/jpeg' && file.type != 'image.jpg') {
